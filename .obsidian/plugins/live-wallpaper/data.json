@@ -3,8 +3,8 @@
   "wallpaperType": "image",
   "playbackSpeed": 1,
   "Quality": true,
-  "opacity": 10,
-  "zIndex": 43,
+  "opacity": 40,
+  "zIndex": 5,
   "blurRadius": 7,
   "brightness": 75,
   "HistoryPaths": [
@@ -43,7 +43,7 @@
       "attribute": ""
     }
   ],
-  "Color": "#000000",
+  "Color": "#0b001f",
   "Position": "Center",
   "PositionX": 50,
   "PositionY": 50,

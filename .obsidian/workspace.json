@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Protocols/MATP.md",
+                "file": "DataStructures/SlotMap.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MATP"
+              "title": "SlotMap"
             }
           }
         ]
@@ -194,8 +194,10 @@
   },
   "active": "f294ddebb0efa852",
   "lastOpenFiles": [
-    "web/Sockets.md",
+    "DataStructures/LinkedList.md",
+    "DataStructures/SlotMap.md",
     "Protocols/MATP.md",
+    "web/Sockets.md",
     "Strings/Null Character.md",
     "quickjs.md",
     "Strings/Encodings/Base65536.md",
@@ -209,7 +211,6 @@
     "web/Nuts-and-Bolts.md",
     "web/ServerClient/Client.md",
     "web/ServerClient/Client-Server-Introduction.md",
-    "DataStructures/SlotMap.md",
     "DataStructures",
     "Untitled.md",
     "web/ServerClient/TCPClient.md",
@@ -224,8 +225,6 @@
     "Client",
     "web/OSI.md",
     "img.png.png",
-    "Protocols/web/UDP.md",
-    "Protocols/web/HTTP.md",
     "Protocols/web",
     "Protocols",
     "DataTransfer",
