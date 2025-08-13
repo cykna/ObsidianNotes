@@ -1,0 +1,3 @@
+## Definition
+Protocols are ways to determine a default action of some. For example, when working with the internet, there are a lot of protocols that determine how the data will be sent, received, and how to act if something fails; one of them are [[TCP]]. Generally the end-user, nor the programmer write a protocol, or it's specification, but use something that already implements this protocol. In case of TCP as mentioned, the implementation is defined by the Operating System, so the programmer writes a program that uses it from the OS itself.
+Some explanations about how to design some, and exactly what a protocol does, can be found at [[MATP]] where i planned all the core idea of a protocol for minecraft bedrock addons
