@@ -152,16 +152,6 @@
             }
           },
           {
-            "id": "332328276c6b89bf",
-            "type": "leaf",
-            "state": {
-              "type": "copilot-chat-view",
-              "state": {},
-              "icon": "message-square",
-              "title": "Copilot"
-            }
-          },
-          {
             "id": "8b031f5d3a5b53bc",
             "type": "leaf",
             "state": {
@@ -172,7 +162,7 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -192,7 +182,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f294ddebb0efa852",
+  "active": "8b031f5d3a5b53bc",
   "lastOpenFiles": [
     "DataStructures/LinkedList.md",
     "DataStructures/SlotMap.md",
