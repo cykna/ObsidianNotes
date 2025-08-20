@@ -44,15 +44,18 @@ Supposing we called this function as `has_pair_with_sum(&[10, 20, 4, 13, 7], 20)
 * On the next, no more is made
 So in the total we will have about 10 instructions made. Well, the pattern understood is that based on a given [[Slice|slice]] with N elements, we will have about 
 
-$$\sum_{k=1}^N k$$ So, on a input of 6 elements, we will have 15 elements, on 7 elements, 21, later 28, and so on. The given summary formula can be then rewrote as the following:
+$$\sum_{k=1}^N k$$
+So, on a input of 6 elements, we will have 15 elements, on 7 elements, 21, later 28, and so on. The given summary formula can be then rewrote as the following:
 $$S = 1 + 2 + 3 .. + N$$
 which, when we invert so, it can be rewritten as the following:
 $$S = N + (N-1) + (N-2) + (N-3) .. + 2 + 1$$
 where S = the total amount of instructions needed to execute on the worst case. Actually on summing both sides, we will have the following formula
 $$S = 1 + 2 + 3 .. + N$$
-$$S = N + (N-1)+(N-2) .. + 1$$ $$ S + S = (N+1) + ((N-1)+2) + ((N-2) + 3) .. + ((N + 1)$$
+$$S = N + (N-1)+(N-2) .. + 1$$ 
+$$ S + S = (N+1) + ((N-1)+2) + ((N-2) + 3) .. + ((N + 1)$$
 Which can be simplified to:
-$$2S = (N+1)+(N+1)+(N+1)+(N+1)..+(N+1)$$ Where the amount of the [[BinaryExpression|right hand side]] of sums of (N+1) is N, so, we can rewrite it another way like:
+$$2S = (N+1)+(N+1)+(N+1)+(N+1)..+(N+1)$$
+Where the amount of the [[BinaryExpression|right hand side]] of sums of (N+1) is N, so, we can rewrite it another way like:
 $$2S = N(N+1)$$
 $$S = N(N+1)/2$$ $$S = (N²+N)/2$$ which contains a N². So, as the amount of inputs increase, this is the order of how much the function will increase. Actually it's `O(N(N+1)/2)`, but as N² is the thing that will start to take more effect on the total amount of instructions needed to finish, we can ignore the others and then write it as simple as `O(N²)`
 The same logic follows Big O all around when we talk about `O(log n)` `O(n log n)` `O(n!)`and others.
