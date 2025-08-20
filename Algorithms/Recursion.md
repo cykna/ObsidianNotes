@@ -66,7 +66,8 @@ fn main() {
     let mut index = 0;
     fib_naive(20, &mut index);
     println!("Fib naive executed {index} times");
-}```
+}
+```
 we have that, on finalizing, we will have the following output:
 ```
 cargo run    
@@ -75,10 +76,12 @@ cargo run
      Running `target/debug/fib`
 Fib naive executed 21891 times
 ```
-which is terrible.  Since each function call generates a new [[StackFrame|stack frame]], we are creating about 22.000 stack frames,  which then can lead us to some [[StackOverflow|stack overflow]] error. So, we can have some ways to make it better, one of the ways is by [[Memoization|memoizing]] the data to don't call it over and over again to recompute the same values, but, let's focus on the most performant options, which would be O(1).
+
+which is terrible(obs: both on optimized and unoptimized versions of the code, rust still executes the same amount of 21891 function calls).  Since each function call generates a new [[StackFrame|stack frame]], we are creating about 22.000 stack frames,  which then can lead us to some [[StackOverflow|stack overflow]] error. So, we can have some ways to make it better, one of the ways is by [[Memoization|memoizing]] the data to don't call it over and over again to recompute the same values, but, let's focus on the most performant options, which would be O(1).
 If we look up on some equivalents for the Fibonnaci series, we find the following formula which uses Golden Ratio to calculate it:
 $$L(N) = (\frac{(1+\sqrt5}2)^N + (\frac{1-\sqrt5}2)^N $$
 Which can be written in rust as:
+
 ```rust
 fn fib(n:u64) -> u64 {
 	const RATIO = (1.0 + (5.0).sqrt()) * 0.5;
@@ -87,3 +90,5 @@ fn fib(n:u64) -> u64 {
 	(RATIO.powf(n) + NEG_RATIO.powf(n)) as u64
 }
 ```
+
+Now, we specify a constant amount of instructions to do, which does categorize this implementation as O(1). Note that the `const` values are created once during compile time.
