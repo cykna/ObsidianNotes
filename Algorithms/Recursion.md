@@ -50,13 +50,40 @@ pub fn fib_naive(n: u64) -> u64 {
         _ => fib_naive(n - 1) + fib_naive(n - 2),
     }
 }```
-Which will lead us to an exponential growth, based on ChatGPT response, we have that, on executing the function with `n = 20`, the function would generate +13.000 calls to itself, which is terrible since each function call generates a new [[StackFrame]] which then can lead us to receive a [[StackOverflow]] error. So, we can have some ways to make it better, one of the ways is by [[Memoization|memoizing]] the data to don't call it over and over again to recompute the same values, but, let's focus on the most performant, which would be O(1).
-If we look up on the internet, we find the following formula which is said to be the equivalent to Fibonnaci:
+Which will lead us to an "exponential" growth.
+When we run the following code:
+```rust
+pub fn fib_naive(n: u64, inc: &mut usize) -> u64 {
+    *inc += 1;
+    match n {
+        0 => 0,
+        1 => 1,
+        _ => fib_naive(n - 1, inc) + fib_naive(n - 2, inc),
+    }
+}
+
+fn main() {
+    let mut index = 0;
+    fib_naive(20, &mut index);
+    println!("Fib naive executed {index} times");
+}```
+we have that, on finalizing, we will have the following output:
+```
+cargo run    
+   Compiling fib v0.1.0 (~/programming/notes/fib)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.29s
+     Running `target/debug/fib`
+Fib naive executed 21891 times
+```
+which is terrible.  Since each function call generates a new [[StackFrame|stack frame]], we are creating about 22.000 stack frames,  which then can lead us to some [[StackOverflow|stack overflow]] error. So, we can have some ways to make it better, one of the ways is by [[Memoization|memoizing]] the data to don't call it over and over again to recompute the same values, but, let's focus on the most performant options, which would be O(1).
+If we look up on some equivalents for the Fibonnaci series, we find the following formula which uses Golden Ratio to calculate it:
 $$L(N) = (\frac{(1+\sqrt5}2)^N + (\frac{1-\sqrt5}2)^N $$
 Which can be written in rust as:
 ```rust
 fn fib(n:u64) -> u64 {
-	const RATIO = (1.0 + (5.0).sqrt()) / 2;
-	(RATIO.powf(n as f64) / (5.0).sqrt()) as u64
+	const RATIO = (1.0 + (5.0).sqrt()) * 0.5;
+	const NEG_RATIO = (1.0 - (5.0).sqrt()) * 0.5;
+	let n = n as f64;
+	(RATIO.powf(n) + NEG_RATIO.powf(n)) as u64
 }
 ```
