@@ -1,6 +1,6 @@
 My Obsidian Notes.
 ## Reason
-I'm reading a book which talks about the web, in case it's ... and i'm seeing that it will become a must to create notes, so that's the reason.
+I'm reading a book which talks about the web, in case it's James F. Kurosa | Keith W. Ross Computer Networking A Top Down Approach. 8th Edition and i'm seeing that it will become a must to create notes, so that's the reason.
 ## Intention
 Note everything I know and I learn to make it accessible to others. So, this is supposed to accept contribution of others about anything they want to talk about that involves programming and the one writing it down finds interesting to share with people
 
