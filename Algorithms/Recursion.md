@@ -92,3 +92,4 @@ fn fib(n:u64) -> u64 {
 ```
 
 Now, we specify a constant amount of instructions to do, which does categorize this implementation as O(1). Note that the `const` values are created once during compile time.
+Todo: More examples of recursion, such as trees
