@@ -1,0 +1,12 @@
+[[https://datatracker.ietf.org/doc/html/rfc9000#name-frame-types-and-formats|Packets]] in [[QUIC]], as defined in the specification, is a list of types of data that can be sent on [[QUIC]], understand it as the minimum content that can be sent and understood by a sender/receptor.
+Note that a packet is just a bunch of bytes that is understood in a specific manner, so the one receiving the content can safely read these bytes and start operating with them. In fact, the multiplexing of 
+
+ * Padding
+	The padding packet is simply used to increase the size of the [[UDP|udp datagram]] to the minimum required size or provide protection against traffic analysis for protected packets. It's numeric type is defined as [[Binary|0b0]]
+* Ping
+	Used to verify if a [[Peers|Peer]] is alive or to determine if they're reachable. It's as simple as this. It's numeric type is defined as [[Binary|0b1]]
+* Stream
+	Stream Packets are packets that contains some specific data on them, then, used to send some kind of data from an end. It's numeric type is defined as [[Binary|0b00001xxx]] where the [[HighestSignificantBit|highest bit]] after the 1 bit determines if the offset is being sent as well, the next one determines if the length field is going as well, and the last determines if it's a FIN bit. It can be understood better at it's[[QUICStream.excalidraw|id representation]]. 
+* Max Data
+	Max Data packets as used to send to an end user which is talking to another how many bytes this one can send to. To clarify this, let's suppose a person that works with papers, it's name is John and a guy named Jack requests him to work with 1 paper, then another one, then another, and so on, but John can take only up to 100 papers at a time, so, when receiving 1 paper from Jack, it says: 'Hey bro, you can send me up to more 99 papers, after that, i wont accept'(99 because 100 - 1). Then Jack sends the other 99 papers, and John needs to process, so he won't accept any more paper. When John finishes working with the 100 papers, he then tells jack 'hey, you can send me more 100 papers now', and it starts over again. The Max Data is the amount in bytes an End will receive, in the example, it's John telling Jack(2 end users) that 100 papers is the amount. 
+	

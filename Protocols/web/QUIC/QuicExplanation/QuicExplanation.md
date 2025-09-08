@@ -1,0 +1,3 @@
+This is a To-do List of the implementations of things that I, Cainã, did follow(or am following) on the implementation of [[https://github.com/cykna/quilx|Quilx]], which is an implementation of the [[QUIC ]]protocol focused on studies. This is mainly made for my own-self to understand the steps of what to implement in order and how they combine together after a certain point. Note that it MIGHT, and probably is incomplete 
+* [[Packets]]
+	
