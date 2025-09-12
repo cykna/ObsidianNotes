@@ -1,0 +1,4 @@
+When 2 ends want to communicate, they start without knowing it the other exists. One way we can do so is to try to send some data to an end, and see if it responds. If so, depending on the response, we know that it can establish a connection and then keep talking.
+When implementing it on [[QUIC]] the handshake is made via a InitialPacketHeader, which is a type of [[Headers|header]]. It contains a [[Frames|crypto frame]] and MUST contain at least 1200 bytes, if not, after the crypto frame, the content must then be filled with padding frames. 
+When a client tries to then establish it, this initial packet is sent and if the other end is working, it receives it, and sends another initial packet. This can be understood visually in order from TOP to the bottom at [[QUICHandshake]] drawing.
+It's used to determine limits such as MAX STREAM and MAX STREAM DATA, keys and others. 
