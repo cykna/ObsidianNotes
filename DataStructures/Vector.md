@@ -72,5 +72,30 @@ int main(){
 }
 ```
 
-The example code above exemplifies at a basic level a vector and how it simply reallocates memory to support more data. The implementation if a Vector in rust doubles the capacity, but it's not necessarily a rule for all the implementations. For that reason, a vector insertion at any index, as well as finding a content at any index, is [[Big O Notation|O(1)]], as long as the write overwrites the content.
-For example `vec->array[5] = 10;` is O(1), but the desired is to insert 10 at index 5, and what is after it, increases the index, thus, moving it, left, the operation is now O(N) where $N = Len(arr) - idx$. 
+The example code above exemplifies at a basic level a vector and how it simply reallocates memory to support more data. The implementation if a Vector in rust doubles the capacity, but it's not necessarily all the vectors apply this rule of doubling the capacity on their implementations.
+For that reason, a vector insertion at any index, as well as finding a content at any index, is [[Big O Notation|O(1)]], as long as the write overwrites the content.
+For example `vec->array[5] = 10;` is O(1), but the desired is to insert 10 at index 5, and what is after it, increases the index, thus, moving it to the right, the operation is now O(N) where $N = Len(arr) - idx$. 
+This is also a way of insertion, but it supposes you shift the content, the insertion where it's O(n) can be called 'overwrite', because you literally are writing data there. To make things easier to understand, the term 'insert' will be used to talk about this kind of insertion where the content after is shifted to the right, and the one that simply writes data will be called 'overwriting'
+To implement it we must first understand how do we do the moving of the elements. We know that on an array [5,4,3,2], if we insert 8, at the index 2, it will then become [5,4,8,3,2].
+To begin with, let's start with the function definition
+```c
+void insert(struct IntVec* target, int index, int value) {
+	//here, for all values with index I, where I >= param(index), overwrite them at I+1 
+}
+```
+So first let's start with the moving. As we will move data to `I+1` where I = current index, if the content vector doesn't have size enough, it will overflow, so we MUST ensure the vector has capacity for so. 
+```c
+void insert(struct IntVec* vec, int index, int data) {
+  if(vec->len == vec->cap) grow(vec);
+  int modifier_index = vec->len;
+  while(modifier_index > index) {
+    vec->array[modifier_index] = vec->array[modifier_index-1];
+    modifier_index--;
+  }
+
+  vec->array[index] = data;
+}
+```
+And there it is, now the content is moved and the value is correctly inserted.
+As you probably noticed, we must start with values at the length of the vector, because `length == last_pos+1`, due to pointer arithmetic. Then, we move the values from N-1 to N, which is shifting them to the right. And at the index we overwrite with the content we want.
+The downside of using this insert method, is that for big amount of data, it will be slow, so other options must be used instead. For example, if we want some kind of [[Queue|queue]], we could use this as well, but inserting always at index 0, the problem with that is that for each insertion we would have to move things.
