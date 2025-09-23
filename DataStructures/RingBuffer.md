@@ -25,6 +25,7 @@ The capacity must be known ahead of time to know the bounds of the buffer, thus 
 | 16  | 10000   |
 | 32  | 100000  |
 | 64  | 1000000 |
+
 The pattern is that on a number P which is power of 2, we have a number whose representation is a single bit 1 followed by N zeros, were `2^N = P`, thus, the binary representation of P-1 can be saw as
 
 | P   | P-1 | Binary |
@@ -36,6 +37,7 @@ The pattern is that on a number P which is power of 2, we have a number whose re
 | 16  | 15  | 1111   |
 | 32  | 31  | 11111  |
 | 64  | 63  | 111111 |
+
 Then we know that a number M is power of 2 when `M & (M-1) == 0`, since no bits will be the same.
 Going back to the ring buffer, this way we can assert that on doing some operation at an index I, the value written is in bounds, so, for a buffer of capacity 4, we mask it with 3, and on inserting at index 9, we instead make the operation at `9 & 3`, or `1001 & 0111 = 0001` which is 1, what is what we expected, since the capacity is 4, we write from 0..3 in a zero-index array, then, at 4, we would write on the index 0, at 8, the same, and at 9, at the index 1. This is why it's a 'ring', because after the end, there's the beginning of the buffer. This can be written as the following:
 ```ts
