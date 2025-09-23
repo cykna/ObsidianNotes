@@ -67,6 +67,7 @@ export class RingBuffer<T> {
 }
 ```
 A push method can be implemented as the above. The calculation of the next index is pretty simple as you saw there. What happens is that was said before, we increase the index, and apply the mask which will assert it's <= this.cap, then, the same thing can be applied to read operations. Then, when having to implement removal of elements, if we 'remove_front' we can simply do the same logic, have an index, read it, increase it and apply the mask, which can be understood as:
+
 ```ts
 export class RingBuffer<T> {
 	private read_idx = 0;
@@ -77,10 +78,13 @@ export class RingBuffer<T> {
 	    this.size--;
 	    return data;
 	  }
-}```
+}
+```
+
 If you don't understand this `const data = this.buffer[this.read_idx++];`, it can be understood as: 'index buffer at this.read_idx, and then increases it', the difference in js from `variable++` to `++variable`, is that `variable++` returns the current value of the variable, and then increases it's value, and `++variable` increases it and then returns it's current value, so what this pop_front is doing is reading at the current position of `read_idx` and increasing it, later it applies the mask (&= operator in JavaScript is equivalent as v = v & rhs) .
 This data structure can be used in [[Queue|queues]] for example instead of a [[LinkedList|linked list]], but the problem is that as data is being added, the old values go being replaced by new ones. This should not be a problem if we are talking about something which writes and reads data fast and doesn't need to store data for so long, since the buffer will never grow.
 The full code I've implement is the below, note that it might and probably contains bugs, but it has the core idea of how a ring buffer works:
+
 ```ts
 /** A Ring buffer with a power of 2 size */
 export class RingBuffer<T> {
