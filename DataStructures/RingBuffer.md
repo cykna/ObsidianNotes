@@ -1,10 +1,11 @@
-A RingBuffer is a structure that is simply a buffer as another one but it's read/write operations happens in a circular way, thus, it can be called Circular Buffer as well.
-When talking about 'circular', we mean that the contents are clamped to the limits of the buffer instead of overflowing, thus, `0..len-1` in a conventional [[Array]] or any other structure that is buffer like, such as [[Vector|vectors]] and [[Slice|slices]]. That means that, supposing a buffer of length N, when reading at index M, where $M > N$, we clamp M to be in bounds of `0..N-1`. That can be made with 2 kinds of operations: Modulus and [[BitOperation|AND]]. Here the implementation will be made focusing on the AND operation and the code is written in typescript.
-To start working with ring buffers, we need at first, create a normal array:
+A RingBuffer is a structure that is simply a buffer as another one but it's read/write operations happens in a circular way, thus, it can be called Circular Buffer as well. When talking about 'circular', we mean that the contents are clamped to the limits of the buffer instead of overflowing, thus, `0..len-1` in a conventional [[Array]] or any other structure that is buffer like, such as [[Vector|vectors]] and [[Slice|slices]]. The means that, supposing a buffer of length N, if on reading on index M, where M > N , we round that down to the bounds of `0..N-1`. That can be made with 2 kinds of operations: Modulus and [[BitOperation|AND]]. Here, the implementation will be made focusing on the AND implementation and the code written is in typescript. To start working with ring buffers, we need at first, create a normal array:
+
 ```ts
 const buffer = [];
 ```
-This array can be understood as the buffer. To start operating with it, we might want to work with classes, so we can wrap it
+
+This array can be understood as the buffer. To start operating with it, we might want work with classes, so we can wrap it
+
 ```ts
 export class RingBuffer<T> {
 	buffer: Array<T> = [];
@@ -14,32 +15,33 @@ export class RingBuffer<T> {
 }
 const buffer = new RingBuffer<number>(128);
 ```
-The capacity must be known ahead of time to know the bounds of the buffer, then we can safely read/write the data into it. As said earlier, the implementation will use AND operations to do the clamping, so to assert it happens correctly, we must make the capacity be a power of 2, the reason is found when we see the binary representation of the numbers:
 
-| P   | Binary  |
-| --- | ------- |
-| 1   | 1       |
-| 2   | 10      |
-| 4   | 100     |
-| 8   | 1000    |
-| 16  | 10000   |
-| 32  | 100000  |
-| 64  | 1000000 |
+The capacity must be known ahead of time to know the bounds of the buffer, thus we can safely read/write the data into it. As said earlier, the implementation will use AND operations to do the clamping, so to assert it happens correctly, we must make the capacity be a power of 2, the reason is found when we see the binary representation of the numbers:
 
-The pattern is that on a number P which is power of 2, its representation is a single bit 1 followed by N zeros, where `2^N = P`, thus, the binary representation of P-1 can be saw as
+|P|Binary|
+|---|---|
+|1|1|
+|2|10|
+|4|100|
+|8|1000|
+|16|10000|
+|32|100000|
+|64|1000000|
 
-| P   | P-1 | Binary |
-| --- | --- | ------ |
-| 1   | 0   | 0      |
-| 2   | 1   | 1      |
-| 4   | 3   | 11     |
-| 8   | 7   | 111    |
-| 16  | 15  | 1111   |
-| 32  | 31  | 11111  |
-| 64  | 63  | 111111 |
+The pattern is that on a number P which is power of 2, we have a number whose representation is a single bit 1 followed by N zeros, were `2^N = P`, thus, the binary representation of P-1 can be saw as
 
-Based on this, we know that the given P number is power of 2 when `P & (P-1) == 0`, since no bits will be the same.
-Going back to the ring buffer, this way we can assert that on doing some operation at an index I, the value written/read is in bounds, so, for a buffer of capacity 4, we mask it with 3, and on inserting at index 9, we instead make the operation at `9 & 3`, or `1001 & 0111 = 0001` which is 1, what is what we expected, since the capacity is 4, we write from 0..3 in a zero-index array, then, at 4, we would write on the index 0, at 8, the same, and at 9, at the index 1. This is why it's a 'ring', because after the end, there's the beginning of the buffer. This can be written as the following:
+|P|P-1|Binary|
+|---|---|---|
+|1|0|0|
+|2|1|1|
+|4|3|11|
+|8|7|111|
+|16|15|1111|
+|32|31|11111|
+|64|63|111111|
+
+Then we know that a number M is power of 2 when `M & (M-1) == 0`, since no bits will be the same. Going back to the ring buffer, this way we can assert that on doing some operation at an index I, the value written is in bounds, so, for a buffer of capacity 4, we mask it with 3, and on inserting at index 9, we instead make the operation at `9 & 3`, or `1001 & 0111 = 0001` which is 1, what is what we expected, since the capacity is 4, we write from 0..3 in a zero-index array, then, at 4, we would write on the index 0, at 8, the same, and at 9, at the index 1. This is why it's a 'ring', because after the end, there's the beginning of the buffer. This can be written as the following:
+
 ```ts
 export class RingBuffer<T> {
   private buffer: Array<T>;
@@ -66,6 +68,7 @@ export class RingBuffer<T> {
   }
 }
 ```
+
 A push method can be implemented as the above. The calculation of the next index is pretty simple as you saw there. What happens is that was said before, we increase the index, and apply the mask which will assert it's <= this.cap, then, the same thing can be applied to read operations. Then, when having to implement removal of elements, if we 'remove_front' we can simply do the same logic, have an index, read it, increase it and apply the mask, which can be understood as:
 
 ```ts
@@ -81,9 +84,7 @@ export class RingBuffer<T> {
 }
 ```
 
-If you don't understand this `const data = this.buffer[this.read_idx++];`, it can be understood as: 'index buffer at this.read_idx, and then increases it', the difference in js from `variable++` to `++variable`, is that `variable++` returns the current value of the variable, and then increases it's value, and `++variable` increases it and then returns it's current value, so what this pop_front is doing is reading at the current position of `read_idx` and increasing it, later it applies the mask (&= operator in JavaScript is equivalent as v = v & rhs) .
-This data structure can be used in [queues](Queue.md) for example instead of a [linked list](./LinkedList.md), but the problem is that as data is being added, the old values go being replaced by new ones. This should not be a problem if we are talking about something which writes and reads data fast and doesn't need to store data for so long, since the buffer will never grow.
-The full code I've implement is the below, note that it might and probably contains bugs, but it has the core idea of how a ring buffer works:
+If you don't understand this `const data = this.buffer[this.read_idx++];`, it can be understood as: 'index buffer at this.read_idx, and then increases it', the difference in js from `variable++` to `++variable`, is that `variable++` returns the current value of the variable, and then increases it's value, and `++variable` increases it and then returns it's current value, so what this pop_front is doing is reading at the current position of `read_idx` and increasing it, later it applies the mask (&= operator in JavaScript is equivalent as v = v & rhs) . This data structure can be used in [[Queue|queues]] for example instead of a [[LinkedList|linked list]], but the problem is that as data is being added, the old values go being replaced by new ones. This should not be a problem if we are talking about something which writes and reads data fast and doesn't need to store data for so long, since the buffer will never grow. The full code I've implement is the below, note that it might and probably contains bugs, but it has the core idea of how a ring buffer works:
 
 ```ts
 /** A Ring buffer with a power of 2 size */
