@@ -27,8 +27,9 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-
+          rm -rf ./NotesWebsite/content/notes/
           git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/cykna/NotesWebsite.git
+          ls -a --recursive
           cp -r . ./NotesWebsite/content/notes/
       - name: Push to site repo 
         run: |
