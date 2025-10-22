@@ -29,7 +29,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           rm -rf ./NotesWebsite/content/notes/
           git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/cykna/NotesWebsite.git ../NotesWebsite
-          ls -aR
+          pwd
+          ls -la
+          ls -laR
           mkdir -p ../NotesWebsite/content/notes/
           rsync -av --exclude='.git' --exclude='.github' ./ ../NotesWebsite/content/notes/
       - name: Push to site repo 
