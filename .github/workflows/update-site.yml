@@ -33,7 +33,7 @@ jobs:
           cp -r . ../NotesWebsite/content/notes/
       - name: Push to site repo 
         run: |
-          cd site-das-notas
+          cd ../NotesWebsite
           git add .
           git commit -m "Atualização automática das notas via GitHub Actions" || echo "Nada para commitar"
           git push origin main
