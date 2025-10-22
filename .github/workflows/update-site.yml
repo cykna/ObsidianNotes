@@ -30,6 +30,7 @@ jobs:
           rm -rf ./NotesWebsite/content/notes/
           git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/cykna/NotesWebsite.git ../NotesWebsite
           ls ..
+          mkdir -p ../NotesWebsite/content/notes
           cp -r . ../NotesWebsite/content/notes/
       - name: Push to site repo 
         run: |
