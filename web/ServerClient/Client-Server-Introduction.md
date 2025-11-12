@@ -1,0 +1,4 @@
+<h1>Introduction to Client-Server</h1>
+<p>The client-server model is a network architecture that distributes tasks between clients, which are devices or software that request services, and servers, which are systems that provide these services and resources. Communication occurs through request and response.</p>
+<p>The process is carried out by two computers: the client, used to make search requests, and the server, used to provide the response to that request. This process is performed over the internet or a private network using network protocols such as TCP/IP, which makes it flexible, scalable, and secure.</p>
+<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEQUMzqJ9NKVXSjqgRbKzJGtq3r6g78vUcF9ZDFNr1IfvFKcaMCRLt9fzvKHPK95tJ0L7m36mZeXaZRRyqjLh6GRkU8YojUMXEf8tfBcJhAfYIa180uSZvvLVopTiQfuJqZyGq2M33L1d2/s1600/cliente-servidor-arquitetura.png" alt="Foto de perfil" width="600"/>
